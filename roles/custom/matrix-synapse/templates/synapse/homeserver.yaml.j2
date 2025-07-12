@@ -2140,13 +2140,17 @@ cas_config:
 
   # The URL of the CAS authorization endpoint.
   #
-  #server_url: "https://cas-server.com"
+{% if matrix_synapse_cas_config_enabled and matrix_synapse_cas_server_url | length > 0 %}
+  server_url: {{ matrix_synapse_cas_server_url | to_json }}
+{% endif %}
 
   # The attribute of the CAS response to use as the display name.
   #
   # If unset, no displayname will be set.
   #
-  #displayname_attribute: name
+{% if matrix_synapse_cas_config_enabled and matrix_synapse_cas_displayname_attribute | length > 0 %}
+  displayname_attribute: {{ matrix_synapse_cas_displayname_attribute | to_json }}
+{% endif %}
 
   # It is possible to configure Synapse to only allow logins if CAS attributes
   # match particular values. All of the keys in the mapping below must exist
@@ -2157,6 +2161,9 @@ cas_config:
   #required_attributes:
   #  userGroup: "staff"
   #  department: None
+{% if matrix_synapse_cas_config_enabled and matrix_synapse_cas_idp_name | length > 0 %}
+  displayname_attribute: {{ matrix_synapse_cas_idp_name | to_json }}
+{% endif %}
 
 
 # Additional settings to use with single-sign on systems such as OpenID Connect,
